@@ -52,4 +52,6 @@ sd(book2$Total)*sqrt((79-1)/79)
 boxplot(book2$Total,horizontal = TRUE)
 
 #Skew
+install.packages("moments")
+library(moments)
 skewness(book2$Total)
