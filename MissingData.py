@@ -1,0 +1,616 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "06841d0f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  First Name  Gender  Salary Bonus % Senior Management             Team\n",
+      "0    Douglas    Male   97308   6.945              TRUE        Marketing\n",
+      "1     Thomas    Male   61933     NaN              TRUE              NaN\n",
+      "2      Maria  Female  130590  11.858             FALSE          Finance\n",
+      "3      Jerry    Male     NaN    9.34              TRUE          Finance\n",
+      "4      Larry    Male  101004   1.389              TRUE  Client Services\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "df=pd.read_csv('employees.csv')\n",
+    "print(df.head())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "fc992706",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "First Name           object\n",
+      "Gender               object\n",
+      "Salary               object\n",
+      "Bonus %              object\n",
+      "Senior Management    object\n",
+      "Team                 object\n",
+      "dtype: object\n",
+      "       First Name  Gender Salary Bonus % Senior Management             Team\n",
+      "count         931     852    998     997               932              957\n",
+      "unique        201       3    993     968                 4               13\n",
+      "top       Marilyn  Female  91462   8.999              TRUE  Client Services\n",
+      "freq           11     428      2       3               467              105\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df.dtypes)\n",
+    "print(df.describe())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "8b9de0b7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Salary\n",
+      "0     97308\n",
+      "1     61933\n",
+      "2    130590\n",
+      "3       NaN\n",
+      "4    101004\n",
+      "5    115163\n",
+      "6     65476\n",
+      "7     45906\n",
+      "8       NaN\n",
+      "9    139852\n",
+      "Name: Salary, dtype: object\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('Salary')\n",
+    "print(df['Salary'].head(10))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "49e99def",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0      Male\n",
+      "1      Male\n",
+      "2    Female\n",
+      "3      Male\n",
+      "4      Male\n",
+      "5      n.a.\n",
+      "6    Female\n",
+      "7    Female\n",
+      "8       NaN\n",
+      "9    Female\n",
+      "Name: Gender, dtype: object\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df['Gender'].head(10))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "999d47aa",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0      Male\n",
+      "1      Male\n",
+      "2    Female\n",
+      "3      Male\n",
+      "4      Male\n",
+      "5      n.a.\n",
+      "6    Female\n",
+      "7    Female\n",
+      "8       NaN\n",
+      "9    Female\n",
+      "Name: Gender, dtype: object\n"
+     ]
+    }
+   ],
+   "source": [
+    "missing_value_formats=[\"n.a\",\"?\",\"NA\",\"n/a\",\"na\",\"--\"]\n",
+    "df=pd.read_csv(\"employees.csv\",na_values=missing_value_formats)\n",
+    "print(df['Gender'].head(10))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "12cdb699",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0     97308.0\n",
+      "1     61933.0\n",
+      "2    130590.0\n",
+      "3         NaN\n",
+      "4    101004.0\n",
+      "Name: Salary, dtype: float64\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\User\\AppData\\Local\\Temp/ipykernel_8344/3161435910.py:9: FutureWarning: The pandas.np module is deprecated and will be removed from pandas in a future version. Import numpy directly instead\n",
+      "  return pd.np.nan\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "missing_value_formats=[\"n.a\",\"?\",\"NA\",\"n/a\",\"na\",\"--\"]\n",
+    "df=pd.read_csv('employees.csv',na_values=missing_value_formats)\n",
+    "\n",
+    "def make_int(i):\n",
+    "    try:\n",
+    "        return int(i)\n",
+    "    except:\n",
+    "        return pd.np.nan\n",
+    "    \n",
+    "df['Salary']=df['Salary'].map(make_int)\n",
+    "print(df['Salary'].head())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "d8e37a56",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0    False\n",
+      "1    False\n",
+      "2    False\n",
+      "3    False\n",
+      "4    False\n",
+      "5    False\n",
+      "6    False\n",
+      "7    False\n",
+      "8     True\n",
+      "9    False\n",
+      "Name: Gender, dtype: bool\n",
+      "0     True\n",
+      "1     True\n",
+      "2     True\n",
+      "3     True\n",
+      "4     True\n",
+      "5     True\n",
+      "6     True\n",
+      "7     True\n",
+      "8    False\n",
+      "9     True\n",
+      "Name: Gender, dtype: bool\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df['Gender'].isnull().head(10))\n",
+    "print(df['Gender'].notnull().head(10))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "57e5f585",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  First Name  Gender    Salary  Bonus % Senior Management             Team\n",
+      "0    Douglas    Male   97308.0    6.945              TRUE        Marketing\n",
+      "1     Thomas    Male   61933.0      NaN              TRUE              NaN\n",
+      "2      Maria  Female  130590.0   11.858             FALSE          Finance\n",
+      "3      Jerry    Male       NaN    9.340              TRUE          Finance\n",
+      "4      Larry    Male  101004.0    1.389              TRUE  Client Services\n"
+     ]
+    }
+   ],
+   "source": [
+    "null_filter=df['Gender'].notnull()\n",
+    "print(df[null_filter].head())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "9e511a12",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df.isnull().values.any())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "d466c0e5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "First Name            70\n",
+      "Gender               148\n",
+      "Salary                 5\n",
+      "Bonus %                4\n",
+      "Senior Management     69\n",
+      "Team                  47\n",
+      "dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df.isnull().sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "61e7334b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "new_df=df.dropna(axis=0)\n",
+    "print(new_df.isnull().values.any())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "f5b2779b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "new_df=df.dropna(axis=0,how='any')\n",
+    "\n",
+    "new_df=df.dropna(axis=0,how='all')\n",
+    "\n",
+    "new_df=df.dropna(axis=1,how='any')\n",
+    "\n",
+    "new_df=df.dropna(axis=1,how='all')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "1441913f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3           0.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].fillna(0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "40a19f93",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0           Male\n",
+       "1           Male\n",
+       "2         Female\n",
+       "3           Male\n",
+       "4           Male\n",
+       "         ...    \n",
+       "995    No Gender\n",
+       "996         Male\n",
+       "997         Male\n",
+       "998         Male\n",
+       "999         Male\n",
+       "Name: Gender, Length: 1000, dtype: object"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Gender'].fillna('No Gender')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "be6c1e12",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3      130590.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].fillna(method='pad')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "0cdb6098",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3      101004.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].fillna(method='bfill')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "3318112d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3       90370.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].fillna(df['Salary'].median())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "d40d73c2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3       90522.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].fillna(int(df['Salary'].mean()))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "72c2b6b1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3           0.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].replace(to_replace=np.nan,value=0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "e06557d1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       97308.0\n",
+       "1       61933.0\n",
+       "2      130590.0\n",
+       "3      115797.0\n",
+       "4      101004.0\n",
+       "         ...   \n",
+       "995    132483.0\n",
+       "996     42392.0\n",
+       "997     96914.0\n",
+       "998     60500.0\n",
+       "999    129949.0\n",
+       "Name: Salary, Length: 1000, dtype: float64"
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Salary'].interpolate(method='linear',direction='forward')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c12f833a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
